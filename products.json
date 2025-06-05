@@ -1,0 +1,57 @@
+{
+    "products": [{
+            "id": 1,
+            "name": "Wiring Harness",
+            "price": 800.00,
+            "description": "Complete Plug-and-Play LJ50 Wiring Harness.",
+            "discount": 0,
+            "category": "Electrical",
+            "image_url": "https://i.imgur.com/suGDxiN.png"
+        },
+        {
+            "id": 2,
+            "name": "Washer Bulb 38440-61824",
+            "price": 110.00,
+            "description": "A remanufactured Manual Washer Bulb Suzuki Part Number: 38440-61824",
+            "discount": 0,
+            "category": "Internal",
+            "image_url": "https://via.placeholder.com/300"
+        },
+        {
+            "id": 3,
+            "name": "Oil Tank Straps (Pair)",
+            "price": 30.00,
+            "description": "LJ Oil Tank Straps",
+            "discount": 5,
+            "category": "Engine",
+            "image_url": "https://via.placeholder.com/300"
+        },
+        {
+            "id": 4,
+            "name": "Light Housing - Blinker/Clearance",
+            "price": 25.00,
+            "description": "A new light housing suitable to 2-wire globes",
+            "discount": 15,
+            "category": "Electrical",
+            "image_url": "https://via.placeholder.com/300"
+        },
+        {
+            "id": 5,
+            "name": "Light Housing - Brake",
+            "price": 25.00,
+            "description": "A new light housing suitable to 3-wire globes",
+            "discount": 5,
+            "category": "Electrical",
+            "image_url": "https://via.placeholder.com/300"
+        },
+        {
+            "id": 6,
+            "name": "Transmission Bushing",
+            "price": 29.99,
+            "description": "LJ Seris Transmission Bushing",
+            "discount": 0,
+            "category": "Drive Train",
+            "image_url": "https://via.placeholder.com/300"
+        }
+    ]
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Modern E-Commerce</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+          <div class="logo">ShopLogo</div>
+          <nav class="nav">
+            <ul class="nav__links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="shop.html">Shop</a></li>
+              <li><a href="contact.html">Contact</a></li>
+              <li><a href="cart.html">Cart <span id="cart-count">(0)</span></a></li>
+              <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+            <div class="nav__toggle" id="navToggle">&#9776;</div>
+          </nav>
+        </div>
+      </header>
+      
+
+    <section class="shop-container container">
+        <aside class="sidebar">
+            <h3>Categories</h3>
+            <ul id="category-list">
+                <!-- Categories will be injected here -->
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h2>Products</h2>
+            <div id="product-grid" class="product-grid">
+                <!-- Product cards will be injected here as grid items -->
+            </div>
+        </main>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Modern E-Commerce. All rights reserved.</p>
+        </div>
+    </footer>
+
+        <!-- 1) Load cart helper library -->
+        <script src="js/cart.js"></script>
+
+        <!-- 2) Then load shop.js which will call addToCart(...) -->
+        <script src="js/shop.js"></script>
+</body>
+</html>

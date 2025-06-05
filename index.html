@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Modern E-Commerce with Database</title>
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <!-- Header / Navigation (with Cart link) -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">ShopLogo</div>
+            <nav class="nav">
+                <ul class="nav__links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="cart.html">Cart <span id="cart-count">(0)</span></a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                </ul>
+                <div class="nav__toggle" id="navToggle">&#9776;</div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section (with embedded images) -->
+    <section class="hero">
+        <div class="container">
+
+            <!-- Optional text over the gray banner -->
+            <h1>Welcome to Our Store</h1>
+            <p>Discover our latest collections</p>
+            <a href="shop.html" class="btn">Shop Now</a>
+
+            <!-- Insert your Google Photos images here -->
+            <div class="hero-images">
+                <!-- Replace each src="IMAGE_URL_1" with the direct link you copied from Google Photos -->
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczPuwI810NGx5nutwSslQkCDmy1y3LX3ICKliwnkZ-1WbN8q6MT6wDklJHUM9XXxevkB8garNprnMd7uxowHnJcRbugIxRevNJz5fmh2hc2NtG0bJ6ofRA_bieVQyZZWDsH8OqWTwEsRecX9SEA9utGt1Q=w1215-h911-s-no-gm?authuser=0" alt="Promo image 1"
+                />
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczNqUwwShc1tGbZIYf_VPq6HjzvUjnwzv6z23N1tGW4wndY4SezPfkBYjmnSF2s1vAXbSDSLq_0YPwgoisMLYfahCIsPumlgcTXJXkInC32fbSU__lB49400GRM9REr14hzG-B2DTOBOJrE4D091pnS7Xw=w1215-h911-s-no-gm?authuser=0" alt="Promo image 2"
+                />
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczPVJw0DIWXnTMMDb8dkXILbHR3BY_Vl0Om3OPO4uaXDrdROSNvN_8ypadJIDiXwT4fL5S9vmGO-lZrRz8WBIABWY_09kZcfgmo-MxEuCUQTP2YR5D1VAtzsrlcqDTl6Ad0ZVdUIiJ6vabiRY-28TLb8Yw=w1080-h801-s-no-gm?authuser=0" alt="Promo image 3"
+                />
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Featured Products Section -->
+    <section class="products">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div id="home-product-grid" class="product-grid">
+                <!-- We'll inject 4 featured products here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Modern E-Commerce. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 1) Load cart helper -->
+    <script src="js/cart.js"></script>
+
+    <!-- 2) Inline script to inject 4 featured products -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.querySelector('.nav__links');
+            const homeGrid = document.getElementById('home-product-grid');
+
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            fetch('products.json')
+                .then(res => res.json())
+                .then(data => {
+                    const featured = data.products.slice(0, 4); // first 4 items
+                    featured.forEach(product => {
+                        const card = document.createElement('div');
+                        card.classList.add('product-card');
+
+                        const img = document.createElement('img');
+                        img.src = product.image_url;
+                        img.alt = product.name;
+
+                        const title = document.createElement('h3');
+                        title.textContent = product.name;
+
+                        const priceP = document.createElement('p');
+                        priceP.classList.add('price');
+                        const discountedPrice = (product.price * (1 - product.discount / 100)).toFixed(2);
+                        if (product.discount > 0) {
+                            priceP.innerHTML = `
+                <span style="text-decoration: line-through;">
+                  $${product.price.toFixed(2)}
+                </span> $${discountedPrice}
+              `;
+                        } else {
+                            priceP.textContent = `$${product.price.toFixed(2)}`;
+                        }
+
+                        const desc = document.createElement('p');
+                        desc.classList.add('description');
+                        desc.textContent = product.description;
+
+                        const btn = document.createElement('button');
+                        btn.classList.add('btn', 'add-to-cart');
+                        btn.textContent = 'Add to Cart';
+
+                        btn.addEventListener('click', () => {
+                            addToCart({
+                                id: product.id,
+                                name: product.name,
+                                price: product.price,
+                                discount: product.discount,
+                                image_url: product.image_url
+                            });
+                            alert(`${product.name} added to cart!`);
+                        });
+
+                        card.appendChild(img);
+                        card.appendChild(title);
+                        card.appendChild(priceP);
+                        card.appendChild(desc);
+                        card.appendChild(btn);
+
+                        homeGrid.appendChild(card);
+                    });
+                })
+                .catch(err => console.error('Error loading featured products:', err));
+        });
+    </script>
+</body>
+
+</html>
