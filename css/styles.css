@@ -459,3 +459,122 @@ body {
         display: block;
     }
 }
+
+
+/* =========================================================
+   MOBILE-FIRST OVERRIDES (phones ≤ 480 px)
+   ========================================================= */
+
+@media (max-width: 480px) {
+    /* Global spacing & type scale */
+    body {
+        font-size: 90%;
+    }
+    h1 {
+        font-size: 1.6rem;
+    }
+    h2 {
+        font-size: 1.3rem;
+    }
+    .btn {
+        padding: 8px 20px;
+        font-size: .9rem;
+    }
+    /* Header / nav */
+    .header {
+        padding: 15px 0;
+    }
+    .logo {
+        font-size: 1.25rem;
+    }
+    .nav__toggle {
+        display: block;
+    }
+    /* already in 768-breakpoint, make sure it shows at 480 too */
+    .nav__links {
+        /* slide-out panel */
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        position: fixed;
+        top: 0;
+        right: -220px;
+        width: 200px;
+        height: 100%;
+        background: #fff;
+        border-left: 1px solid #eaeaea;
+        padding-top: 75px;
+        transition: right .3s ease;
+        z-index: 10;
+    }
+    .nav__links.active {
+        right: 0;
+    }
+    .nav__links li {
+        margin: 15px 20px;
+    }
+    /* Hero images → single-image carousel */
+    .hero-images {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+    .hero-images img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity .6s ease;
+    }
+    .hero-images img.show {
+        opacity: 1;
+    }
+    /* Product grid → single column */
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    /* Cards */
+    .product-card {
+        padding: 15px;
+    }
+    .product-card h3 {
+        font-size: 1.05rem;
+    }
+    /* Cart table → stacked list */
+    .cart-table,
+    .cart-table thead {
+        display: none;
+    }
+    .cart-table,
+    .cart-table tbody,
+    .cart-table tr {
+        display: block;
+        width: 100%;
+    }
+    .cart-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 0;
+        border-bottom: 1px solid #eaeaea;
+        padding: 10px 6px;
+    }
+    .cart-table td.cart-product {
+        justify-content: flex-start;
+    }
+    .cart-table img.cart-image {
+        margin-right: 10px;
+    }
+    #cart-summary h3 {
+        text-align: center;
+    }
+    #cart-summary #checkout {
+        float: none;
+        width: 100%;
+        margin-top: 10px;
+    }
+}
