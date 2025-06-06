@@ -68,41 +68,98 @@ body {
 }
 
 
-/* Hero Section */
+/* ================================================
+   1) HERO SECTION: make .hero the positioning parent
+   ================================================ */
 
 .hero {
-    background-color: #f0f0f0;
-    padding: 2rem 0;
-    text-align: center;
     position: relative;
+    /* establish containing block for absolute children */
+    background-color: #f0f0f0;
+    /* or remove if you want the background to be fully covered by images */
+    padding: 2rem 0;
+    /* controls the height of the hero region */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    /* (optional) hide overflow if images bleed out */
 }
+
+
+/* ================================================
+   2) HERO‐IMAGES: sit absolutely behind all text/buttons
+   ================================================ */
 
 .hero-images {
-    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-top: 1.5rem;
+    height: 100%;
+    overflow: hidden;
+    /* ensure no stray edges show */
+    z-index: 0;
+    /* behind the text */
+    /* remove any “display: flex;” or “margin-top” here—these rules override them */
 }
+
+
+/* Each <img> will fill the entire hero area.
+   We still keep the fade‐in logic for mobile if your JS toggles “.show”. */
 
 .hero-images img {
-    flex: 1 1 0;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 200px;
-    /* adjust as needed */
+    height: 100%;
     object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin: 0 0.5rem;
+    opacity: 0;
+    transition: opacity 0.6s ease;
 }
 
 
-/* remove outer margins so they flush to edges */
+/* When your JS adds “.show” at ≤480px (or other breakpoints), each slide will fade in */
 
-.hero-images img:first-child {
-    margin-left: 0;
+.hero-images img.show {
+    opacity: 1;
 }
 
-.hero-images img:last-child {
-    margin-right: 0;
+
+/* ================================================
+   3) FORCE TEXT & BUTTONS ON TOP
+   ================================================ */
+
+.hero h1,
+.hero p,
+.hero .btn {
+    position: relative;
+    /* so that z-index actually applies */
+    z-index: 1;
+    /* above the <img> backgrounds */
+    color: #fff;
+    /* typically you’ll want white text if the images are dark */
+}
+
+
+/* ================================================
+   4) (OPTIONAL) A SEMI‐TRANSPARENT OVERLAY
+      This ensures white text remains legible over
+      bright or busy photos. Comment out if you don’t want it.
+   ================================================ */
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0.5;
+    /* sits between the images (z‐index:0) and the text (z‐index:1) */
 }
 
 .btn {
@@ -427,45 +484,11 @@ body {
 }
 
 
-/* ================================
-     MOBILE OVERRIDES (≤768px)
-     ================================ */
-
-@media (max-width: 768px) {
-    /* Stack table cells vertically on very small screens */
-    .cart-table th,
-    .cart-table td {
-        font-size: 0.9rem;
-        padding: 8px;
-    }
-    .cart-table img.cart-image {
-        width: 40px;
-        margin-right: 6px;
-    }
-    .hero-images {
-        position: relative;
-        overflow: hidden;
-    }
-    .hero-images img {
-        display: none;
-        width: 100%;
-        height: 200px;
-        /* keep same height or adjust */
-        object-fit: cover;
-        margin: 0;
-        /* no gaps on mobile */
-    }
-    .hero-images img.active {
-        display: block;
-    }
-}
-
-
 /* =========================================================
    MOBILE-FIRST OVERRIDES (phones ≤ 480 px)
    ========================================================= */
 
-@media (max-width: 480px) {
+@media (max-width: 1080px) {
     /* Global spacing & type scale */
     body {
         font-size: 90%;
@@ -514,11 +537,29 @@ body {
         margin: 15px 20px;
     }
     /* Hero images → single-image carousel */
-    .hero-images {
+    /* ───────────────────────────────────────────────────────────────────────
+   BELOW 1080px: make .hero-images sit behind the text, full-width & full-height
+───────────────────────────────────────────────────────────────────────── */
+    .hero {
         position: relative;
-        height: 200px;
+        /* ensure this is the containing block */
         overflow: hidden;
+        /* hide any overflow from the slides */
+        /* (keep whatever padding/background you already have on .hero) */
     }
+    .hero-images {
+        position: absolute;
+        /* lift it out of the normal flow */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* fill the entire hero’s height */
+        overflow: hidden;
+        z-index: 0;
+        /* behind the text/buttons (which we’ll push to z-index:1) */
+    }
+    /* Each <img> now covers the entire hero area and fades via opacity */
     .hero-images img {
         position: absolute;
         top: 0;
@@ -527,10 +568,32 @@ body {
         height: 100%;
         object-fit: cover;
         opacity: 0;
-        transition: opacity .6s ease;
+        transition: opacity 0.6s ease;
     }
+    /* When JS toggles “.show”, that slide fades in behind the heading */
     .hero-images img.show {
         opacity: 1;
+    }
+    /* Force the heading, subtext, and button to float above the slides */
+    .hero h1,
+    .hero p,
+    .hero .btn {
+        position: relative;
+        z-index: 1;
+        color: #fff;
+        /* white text looks best on arbitrary photos */
+    }
+    /* Optional overlay (if you want a translucent layer for contrast) */
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 0.5;
+        /* sits between the images (z:0) and the text (z:1) */
     }
     /* Product grid → single column */
     .product-grid {
@@ -576,5 +639,17 @@ body {
         float: none;
         width: 100%;
         margin-top: 10px;
+    }
+}
+
+@media (min-width: 1081px) {
+    .hero {
+        height: 400px;
+        /* fix the total banner height on desktop */
+    }
+    .hero-images,
+    .hero-images img {
+        height: 100%;
+        /* fill .hero’s 400px height */
     }
 }
